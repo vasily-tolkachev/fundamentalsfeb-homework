@@ -12,13 +12,13 @@ public class Main {
     public static void main(String... args) {
         ArrayList<Stationery> stationeryList = new ArrayList<>();
 
-        stationeryList.add(new Pen(40));
-        stationeryList.add(new Pencil(50));
-        stationeryList.add(new Ruler(20));
-        stationeryList.add(new Eraser(100));
+        stationeryList.add(new Pen(40, "Blue"));
+        stationeryList.add(new Pencil(50, "Graphite sticks pencils"));
+        stationeryList.add(new Ruler(20, "Desk ruler"));
+        stationeryList.add(new Eraser(100, "Pencil eraser"));
 
-        for (Stationery element: stationeryList) {
-            log.info("{} that costs {}",element.getName(), element.getCost());
+        for (Stationery element : stationeryList) {
+            log.info("{} that costs {}", element.getName(), element.getCost());
         }
     }
 }
