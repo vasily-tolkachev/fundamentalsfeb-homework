@@ -5,18 +5,19 @@ import java.util.Map;
 
 
 public class Group {
-    private final Disciplines disciplineName;
+    private final static boolean intGrades = true;
     private final Map<Student, Integer> studentsGrades;
     private static final int INITIAL_GRADE = 2;
 
-    public Group(Disciplines disciplineName) {
-        this.disciplineName = disciplineName;
+    public Group() {
         studentsGrades = new HashMap<>();
     }
 
     public void addStudent(Student student) {
-        studentsGrades.put(student, INITIAL_GRADE);
+        if (!studentsGrades.containsKey(student))
+            studentsGrades.put(student, INITIAL_GRADE);
     }
+
 
     public void addGrade(Student student, int grade) {
         if (studentsGrades.containsValue(student)) {
@@ -24,7 +25,7 @@ public class Group {
         }
     }
 
-    public Disciplines getDisciplineName() {
-        return disciplineName;
+    public boolean isStudentIn(Student student) {
+        return studentsGrades.containsKey(student);
     }
 }

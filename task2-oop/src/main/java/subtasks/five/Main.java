@@ -3,11 +3,19 @@ package subtasks.five;
 public class Main {
     public static void main(String... args) {
         GradeBook gradeBook = new GradeBook();
-        gradeBook.addStudent("firstName1", "lastName1");
-        gradeBook.addStudent("firstName2", "lastName2");
-        gradeBook.addStudent("firstName3", "lastName3");
-        gradeBook.addStudent("firstName4", "lastName4");
-        gradeBook.addStudent("firstName5", "lastName5");
+        Student student1 = new Student("firstName1", "lastName1");
+        Student student2 = new Student("firstName2", "lastName2");
+        Student student3 = new Student("firstName3", "lastName3");
+        Student student4 = new Student("firstName4", "lastName4");
+        Student student5 = new Student("firstName5", "lastName5");
+
+/*        gradeBook.addStudent(student1);
+        gradeBook.addStudent(student2);
+        gradeBook.addStudent(student3);
+        gradeBook.addStudent(student4);
+        gradeBook.addStudent(student5);
+        gradeBook.addStudent(student5);
+        gradeBook.addStudent(student5);*/
 
         gradeBook.showStudentsList();
 
@@ -18,11 +26,13 @@ public class Main {
 
         gradeBook.showDisciplinesList();
 
-        gradeBook.assignStudentToDiscipline("firstName1", "lastName1", Disciplines.BIOLOGY);
-        gradeBook.assignStudentToDiscipline("firstName2", "lastName2", Disciplines.PHYSICS);
-        gradeBook.assignStudentToDiscipline("firstName3", "lastName3", Disciplines.PHYSICS);
-        gradeBook.assignStudentToDiscipline("firstName4", "lastName4", Disciplines.BIOLOGY);
-        gradeBook.assignStudentToDiscipline("firstName5", "lastName5", Disciplines.PHYSICS);
+        gradeBook.addStudent(student1, Disciplines.BIOLOGY);
+        gradeBook.addStudent(student1, Disciplines.PHYSICS);
+        gradeBook.addStudent(student2, Disciplines.BIOLOGY);
+        gradeBook.addStudent(student3, Disciplines.PHYSICS);
+        gradeBook.addStudent(student4, Disciplines.PHYSICS);
+        gradeBook.addStudent(student5, Disciplines.BIOLOGY);
+        gradeBook.addStudent(student2, Disciplines.CHEMISTRY);
 
         gradeBook.showStudentsList();
         gradeBook.showDisciplinesStudentAttendend("firstName5", "lastName5");
