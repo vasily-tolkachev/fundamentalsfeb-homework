@@ -9,16 +9,6 @@ public class Main {
         Student student4 = new Student("firstName4", "lastName4");
         Student student5 = new Student("firstName5", "lastName5");
 
-/*        gradeBook.addStudent(student1);
-        gradeBook.addStudent(student2);
-        gradeBook.addStudent(student3);
-        gradeBook.addStudent(student4);
-        gradeBook.addStudent(student5);
-        gradeBook.addStudent(student5);
-        gradeBook.addStudent(student5);*/
-
-        gradeBook.showStudentsList();
-
         gradeBook.addNewGroup(Disciplines.PHYSICS);
         gradeBook.addNewGroup(Disciplines.BIOLOGY);
         gradeBook.addNewGroup(Disciplines.ENGLISH);
@@ -31,11 +21,18 @@ public class Main {
         gradeBook.addStudent(student2, Disciplines.BIOLOGY);
         gradeBook.addStudent(student3, Disciplines.PHYSICS);
         gradeBook.addStudent(student4, Disciplines.PHYSICS);
+        gradeBook.addStudent(student4, Disciplines.BIOLOGY);
+        gradeBook.addStudent(student4, Disciplines.MATHEMATICS);
+        gradeBook.addStudent(student4, Disciplines.ENGLISH);
         gradeBook.addStudent(student5, Disciplines.BIOLOGY);
         gradeBook.addStudent(student2, Disciplines.CHEMISTRY);
 
         gradeBook.showStudentsList();
-        gradeBook.showDisciplinesStudentAttendend("firstName5", "lastName5");
+        gradeBook.showDisciplinesStudentAttended(student1);
+        gradeBook.showDisciplinesStudentAttended(student2);
+        gradeBook.showDisciplinesStudentAttended(student3);
+        gradeBook.showDisciplinesStudentAttended(student4);
+        gradeBook.showDisciplinesStudentAttended(student5);
 
         gradeBook.addGrade("firstName5", "lastName5", Disciplines.BIOLOGY, 5);
         gradeBook.showStudentsGrades("firstName5", "lastName5");

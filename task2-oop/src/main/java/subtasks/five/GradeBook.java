@@ -71,7 +71,18 @@ public class GradeBook {
         }
     }
 
-    public void showDisciplinesStudentAttendend(String firstName, String lastName) {
+    public void showDisciplinesStudentAttended(Student student) {
+        if (students.containsKey(student.getLastName())) {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (Disciplines discipline: groups.keySet()) {
+                if (groups.get(discipline).isStudentIn(student)) {
+                    stringBuilder.append(discipline).append(" ");
+                }
+            }
+            log.info("{} {}", student.getLastName() ,stringBuilder.toString());
+        }
+        else
+            log.info("This student not in the book yet");
     }
 
     public void showStudentsGrades(String firstName, String lastName) {
