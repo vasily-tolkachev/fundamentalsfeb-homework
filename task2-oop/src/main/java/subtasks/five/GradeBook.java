@@ -11,7 +11,7 @@ import java.util.Map;
 public class GradeBook {
     private static final Logger log = LogManager.getLogger(Main.class);
     private Map<Disciplines, Group> groups;
-    private Map<String, String> students;
+    private Map<Student, ArrayList<Disciplines>> students;
 
     public GradeBook() {
         groups = new HashMap<>();
@@ -21,21 +21,26 @@ public class GradeBook {
     public void showStudentsGrades(Student student1) {
     }
 
-/*    public void addStudent(Student student) {
-        if (!freeStudents.contains(student))
-            freeStudents.add(student);
-        else
-            log.info("Students list already contains this name {} {}", student.getLastName(), student.getFirstName());
-    }*/
-
     public void addStudent(Student student, Disciplines disciplineName) {
+        addStudentToStudentList(student, disciplineName);
+        addStudentToGroup(student, disciplineName);
+    }
+    
+    private void addStudentToStudentList(Student student, Disciplines disciplineName) {
+        if (!students.containsKey(student)) {
+            ArrayList<Disciplines> newList = new ArrayList<>();
+            newList.add(disciplineName);
+            students.put(student, newList);
+        } else if (!students.get(student).contains(disciplineName)) {
+            students.get(student).add(disciplineName);
+        }
+    }
+
+    private void addStudentToGroup(Student student, Disciplines disciplineName) {
         if (groups.containsKey(disciplineName)) {
             Group group = groups.get(disciplineName);
             if (!group.isStudentIn(student)) {
                 group.addStudent(student);
-                if (!students.containsKey(students.containsKey(student.getLastName()))) {
-                    students.put(student.getLastName(), student.getFirstName());
-                }
             } else {
                 log.info("A student {} {} already in {} group", student.getLastName(), student.getFirstName(), disciplineName);
             }
@@ -53,15 +58,15 @@ public class GradeBook {
     public void showStudentsList() {
         StringBuilder stringBuilder = new StringBuilder();
         if (!students.isEmpty()) {
-            for (String surname : students.keySet()) {
-                stringBuilder.append("Last name: ").append(surname).append("  ");
-                stringBuilder.append("First name: ").append(students.get(surname)).append('\n');
+            for (Student student : students.keySet()) {
+                stringBuilder.append("Last name: ").append(student.getLastName()).append("  ");
+                stringBuilder.append("First name: ").append(student.getFirstName()).append('\n');
             }
             log.info("\nStudents list:\n{}\n", stringBuilder.toString());
         }
     }
 
-    public void showDisciplinesList() {
+    public void showGroupsList() {
         if (!groups.isEmpty()) {
             StringBuilder stringBuilder = new StringBuilder();
             for (Disciplines discipline : groups.keySet()) {
@@ -72,16 +77,13 @@ public class GradeBook {
     }
 
     public void showDisciplinesStudentAttended(Student student) {
-        if (students.containsKey(student.getLastName())) {
+        if (students.containsKey(student)) {
             StringBuilder stringBuilder = new StringBuilder();
-            for (Disciplines discipline: groups.keySet()) {
-                if (groups.get(discipline).isStudentIn(student)) {
-                    stringBuilder.append(discipline).append(" ");
-                }
+            for (Disciplines discipline : students.get(student)) {
+                stringBuilder.append(discipline).append(" ");
             }
-            log.info("{} {}", student.getLastName() ,stringBuilder.toString());
-        }
-        else
+            log.info("{} {}", student.getLastName(), stringBuilder.toString());
+        } else
             log.info("This student not in the book yet");
     }
 

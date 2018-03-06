@@ -13,8 +13,9 @@ public class Main {
         gradeBook.addNewGroup(Disciplines.BIOLOGY);
         gradeBook.addNewGroup(Disciplines.ENGLISH);
         gradeBook.addNewGroup(Disciplines.MATHEMATICS);
+        gradeBook.addNewGroup(Disciplines.MATHEMATICS);
 
-        gradeBook.showDisciplinesList();
+        gradeBook.showGroupsList();
 
         gradeBook.addStudent(student1, Disciplines.BIOLOGY);
         gradeBook.addStudent(student1, Disciplines.PHYSICS);
@@ -33,6 +34,8 @@ public class Main {
         gradeBook.showDisciplinesStudentAttended(student3);
         gradeBook.showDisciplinesStudentAttended(student4);
         gradeBook.showDisciplinesStudentAttended(student5);
+
+
 
         gradeBook.addGrade("firstName5", "lastName5", Disciplines.BIOLOGY, 5);
         gradeBook.showStudentsGrades("firstName5", "lastName5");
