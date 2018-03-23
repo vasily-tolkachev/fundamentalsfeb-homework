@@ -1,31 +1,51 @@
 package subtasks.five;
 
+import jdk.internal.jline.internal.Log;
+
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class Group {
-    private final static boolean intGrades = true;
     private final Map<Student, Integer> studentsGrades;
     private static final int INITIAL_GRADE = 2;
+    private final Discipline discipline;
 
-    public Group() {
+    Group(Discipline discipline) {
+        this.discipline = discipline;
         studentsGrades = new HashMap<>();
     }
 
-    public void addStudent(Student student) {
+    void printStudentList() {
+        StringBuilder builder = new StringBuilder();
+        for (Student student: studentsGrades.keySet()) {
+            builder.append("Student ID ")
+                    .append(student.getStudentId())
+                    .append(" ")
+                    .append(student.getFirstName())
+                    .append(" ")
+                    .append(student.getLastName());
+        }
+        Log.info(builder.toString());
+    }
+
+    void addStudent(Student student) {
         if (!studentsGrades.containsKey(student))
             studentsGrades.put(student, INITIAL_GRADE);
     }
 
-
-    public void addGrade(Student student, int grade) {
-        if (studentsGrades.containsValue(student)) {
-            studentsGrades.put(student, grade);
-        }
+    boolean isStudentIn(Student student) {
+        return studentsGrades.containsKey(student);
     }
 
-    public boolean isStudentIn(Student student) {
-        return studentsGrades.containsKey(student);
+    Discipline getDiscipline() {
+        return discipline;
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "discipline=" + discipline +
+                '}';
     }
 }

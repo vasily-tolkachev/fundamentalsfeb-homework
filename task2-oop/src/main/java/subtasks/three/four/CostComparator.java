@@ -1,6 +1,6 @@
 package subtasks.three.four;
 
-        import java.util.Comparator;
+import java.util.Comparator;
 
 public class CostComparator implements Comparator<Stationery> {
     @Override

@@ -3,20 +3,25 @@ package subtasks.five;
 import java.util.Objects;
 
 public class Student {
-
+    private final Integer studentId;
     private final String firstName;
     private final String lastName;
 
-    public Student(String firstName, String lastName) {
+    Student(Integer studentId, String firstName, String lastName) {
+        this.studentId = studentId;
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public String getFirstName() {
+    Integer getStudentId() {
+        return studentId;
+    }
+
+    String getFirstName() {
         return firstName;
     }
 
-    public String getLastName() {
+    String getLastName() {
         return lastName;
     }
 
@@ -25,19 +30,19 @@ public class Student {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return Objects.equals(firstName, student.firstName) &&
-                Objects.equals(lastName, student.lastName);
+        return Objects.equals(studentId, student.studentId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName);
+        return Objects.hash(studentId);
     }
 
     @Override
     public String toString() {
         return "Student{" +
-                "firstName='" + firstName + '\'' +
+                "studentId=" + studentId +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 '}';
     }
