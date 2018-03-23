@@ -5,7 +5,7 @@ import java.util.Map;
 
 
 public class Group {
-    private final Map<Student, Integer> studentsGrades;
+    private Map<Student, Integer> studentsGrades;
     private static final int INITIAL_GRADE = 2;
     private final Discipline discipline;
 
@@ -14,16 +14,23 @@ public class Group {
         studentsGrades = new HashMap<>();
     }
 
+    void addGrade(Student student, Integer grade) {
+        studentsGrades.put(student, grade);
+    }
+
+    Integer getStudentGrade(Student student) {
+        return studentsGrades.get(student);
+    }
+
     String getStudentList() {
         StringBuilder builder = new StringBuilder();
-        for (Student student: studentsGrades.keySet()) {
-            builder.append("Student ID ")
+        for (Student student : studentsGrades.keySet()) {
+            builder.append("\nStudent ID ")
                     .append(student.getStudentId())
                     .append(" ")
                     .append(student.getFirstName())
                     .append(" ")
-                    .append(student.getLastName())
-                    .append('\n');
+                    .append(student.getLastName());
         }
         return builder.toString();
     }

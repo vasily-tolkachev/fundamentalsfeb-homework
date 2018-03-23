@@ -3,6 +3,7 @@ package subtasks.five;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import subtasks.three.four.Main;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,33 +21,29 @@ class GradeBook {
             if (!group.isStudentIn(student)) {
                 group.addStudent(student);
             } else {
-                log.info("A student ID {} {} {} already in group ID {}", student.getStudentId(), student.getLastName(), student.getFirstName(), groupId);
+                log.info("GradeBook.addStudent A student ID {} {} {} already in group ID {}", student.getStudentId(), student.getLastName(), student.getFirstName(), groupId);
             }
         } else {
-            log.info("The group ID {} doesn't created yet.", groupId);
+            log.info("GradeBook.addStudent The group ID {} doesn't created yet.", groupId);
         }
     }
 
-    void addNewGroup(Integer groupId, Discipline disciplineName) {
+    void addGroup(Integer groupId, Discipline disciplineName) {
         if (!groups.containsKey(groupId)) {
             groups.put(groupId, new Group(disciplineName));
-        }
-        else {
-            log.info("The group with ID {} already exists", groupId);
+        } else {
+            log.info("GradeBook.addGroup The group with ID {} already exists", groupId);
         }
     }
 
     void showStudentsInGroups() {
         if (!groups.isEmpty()) {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("\nStudents in groups:\n");
             for (Map.Entry<Integer, Group> entry : groups.entrySet()) {
-                stringBuilder.append("Group ID ")
-                        .append(entry.getKey())
-                        .append('\n')
+                stringBuilder.append("\nGroup ID ").append(entry.getKey()).append(':')
                         .append(entry.getValue().getStudentList());
             }
-            log.info(stringBuilder.toString());
+            log.info("\nStudents in groups: {}\n", stringBuilder.toString());
         }
     }
 
@@ -54,31 +51,63 @@ class GradeBook {
         if (!groups.isEmpty()) {
             StringBuilder stringBuilder = new StringBuilder();
             for (Map.Entry<Integer, Group> entry : groups.entrySet()) {
-                stringBuilder.append("ID: ")
+                stringBuilder.append("\nID: ")
                         .append(entry.getKey())
                         .append(" Discipline: ")
-                        .append(entry.getValue().getDiscipline().name())
-                        .append('\n');
+                        .append(entry.getValue().getDiscipline().name());
             }
-            log.info("\nGroups list:\n{}\n", stringBuilder.toString());
+            log.info("\nGroups list:{}\n", stringBuilder.toString());
         }
     }
 
     void showDisciplinesStudentAttended(Student student) {
         if (!groups.isEmpty()) {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("\nStudent ID ")
-                    .append(student.getStudentId())
-                    .append('\n')
-                    .append("Attends groups:\n");
             for (Map.Entry<Integer, Group> entry : groups.entrySet()) {
-                if(entry.getValue().isStudentIn(student)) {
+                if (entry.getValue().isStudentIn(student)) {
                     stringBuilder.append("ID")
                             .append(entry.getKey())
                             .append(" ");
                 }
             }
-            log.info(stringBuilder.toString());
+            log.info("\nStudent ID {} attends groups: {}\n", student.getStudentId(), stringBuilder.toString());
+        }
+    }
+
+    void addGrade(Student student, Integer groupId, Integer grade) {
+        Group group = groups.get(groupId);
+        if (group != null) {
+            if (group.isStudentIn(student)) {
+                group.addGrade(student, grade);
+            } else {
+                log.info("GradeBook.addGrade Student ID {} {} {} not in the group ID{}",
+                        student.getStudentId(),
+                        student.getLastName(),
+                        student.getFirstName(),
+                        groupId);
+            }
+        } else {
+            log.info("GradeBook.addGrade Group ID {} doesn't exist", groupId);
+        }
+    }
+
+    void showStudentsGrades(Student student) {
+        if (!groups.isEmpty()) {
+            StringBuilder builder = new StringBuilder();
+            for (Map.Entry<Integer, Group> entry : groups.entrySet()) {
+                Group group = entry.getValue();
+                if (group.isStudentIn(student)) {
+                    builder.append("\nGroup ID ")
+                            .append(entry.getKey())
+                            .append(" students grade is ")
+                            .append(group.getStudentGrade(student));
+                }
+            }
+            log.info("\nStudent ID {} {} {} grades: {}\n",
+                    student.getStudentId(),
+                    student.getLastName(),
+                    student.getFirstName(),
+                    builder.toString());
         }
     }
 }
