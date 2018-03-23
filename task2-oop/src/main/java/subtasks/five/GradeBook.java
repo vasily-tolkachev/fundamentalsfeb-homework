@@ -9,6 +9,8 @@ import java.util.Map;
 
 class GradeBook {
     private static final Logger log = LogManager.getLogger(Main.class);
+    private static final int INITIAL_INTEGER_GRADE = 2;
+    private static final double INITIAL_DOUBLE_GRADE = 2.0;
     private Map<Integer, Group> groups;
 
     GradeBook() {
@@ -19,7 +21,11 @@ class GradeBook {
         if (groups.containsKey(groupId)) {
             Group group = groups.get(groupId);
             if (!group.isStudentIn(student)) {
-                group.addStudent(student);
+                if (group.getDiscipline().areGradesInteger()) {
+                    group.addGrade(student, INITIAL_INTEGER_GRADE);
+                } else {
+                    group.addGrade(student, INITIAL_DOUBLE_GRADE);
+                }
             } else {
                 log.info("GradeBook.addStudent A student ID {} {} {} already in group ID {}", student.getStudentId(), student.getLastName(), student.getFirstName(), groupId);
             }
@@ -76,9 +82,33 @@ class GradeBook {
 
     void addGrade(Student student, Integer groupId, Integer grade) {
         Group group = groups.get(groupId);
+        if (areGroupAndStudentExist(student, groupId)) {
+            if (group.getDiscipline().areGradesInteger()) {
+                group.addGrade(student, grade);
+            } else {
+                log.info("GradeBook.addGrade {} doesn't take integer grade, so {} is inappropriate grade",
+                        group.getDiscipline(), grade);
+            }
+        }
+    }
+
+    void addGrade(Student student, Integer groupId, Double grade) {
+        Group group = groups.get(groupId);
+        if (areGroupAndStudentExist(student, groupId)) {
+            if (!group.getDiscipline().areGradesInteger()) {
+                group.addGrade(student, grade);
+            } else {
+                log.info("GradeBook.addGrade {} doesn't take double grade, so {} is inappropriate grade",
+                        group.getDiscipline(), grade);
+            }
+        }
+    }
+
+    private boolean areGroupAndStudentExist(Student student, Integer groupId) {
+        Group group = groups.get(groupId);
         if (group != null) {
             if (group.isStudentIn(student)) {
-                group.addGrade(student, grade);
+                return true;
             } else {
                 log.info("GradeBook.addGrade Student ID {} {} {} not in the group ID{}",
                         student.getStudentId(),
@@ -89,6 +119,7 @@ class GradeBook {
         } else {
             log.info("GradeBook.addGrade Group ID {} doesn't exist", groupId);
         }
+        return false;
     }
 
     void showStudentsGrades(Student student) {

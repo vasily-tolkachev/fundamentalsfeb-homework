@@ -4,9 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class Group {
-    private Map<Student, Integer> studentsGrades;
-    private static final int INITIAL_GRADE = 2;
+public class Group<N> {
+    private Map<Student, N> studentsGrades;
     private final Discipline discipline;
 
     Group(Discipline discipline) {
@@ -14,11 +13,11 @@ public class Group {
         studentsGrades = new HashMap<>();
     }
 
-    void addGrade(Student student, Integer grade) {
+    void addGrade(Student student, N grade) {
         studentsGrades.put(student, grade);
     }
 
-    Integer getStudentGrade(Student student) {
+    N getStudentGrade(Student student) {
         return studentsGrades.get(student);
     }
 
@@ -33,11 +32,6 @@ public class Group {
                     .append(student.getLastName());
         }
         return builder.toString();
-    }
-
-    void addStudent(Student student) {
-        if (!studentsGrades.containsKey(student))
-            studentsGrades.put(student, INITIAL_GRADE);
     }
 
     boolean isStudentIn(Student student) {

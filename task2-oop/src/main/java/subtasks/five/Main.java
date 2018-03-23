@@ -35,9 +35,22 @@ public class Main {
         gradeBook.addStudent(student4, 5);
         gradeBook.addStudent(student5, 5);
 
-        gradeBook.addGrade(student1, 2, 5);
+        gradeBook.addGrade(student1, 1, 4);
+        gradeBook.addGrade(student1, 2, 5.0);
         gradeBook.addGrade(student1, 3, 5);
-        gradeBook.addGrade(student5, 3, 4);
+        gradeBook.addGrade(student1, 4, 5);
+        gradeBook.addGrade(student1, 5, 5);
+        gradeBook.addGrade(student1, 6, 5);
+        gradeBook.addGrade(student2, 2, 4);
+        gradeBook.addGrade(student2, 3, 4.5);
+        gradeBook.addGrade(student2, 3, 4.1);
+        gradeBook.addGrade(student2, 5, 4);
+        gradeBook.addGrade(student3, 3, 4.1);
+        gradeBook.addGrade(student3, 4, 4);
+        gradeBook.addGrade(student3, 5, 4);
+        gradeBook.addGrade(student4, 4, 4);
+        gradeBook.addGrade(student4, 5, 4);
+        gradeBook.addGrade(student5, 5, 4);
 
         gradeBook.showGroupsList();
 
