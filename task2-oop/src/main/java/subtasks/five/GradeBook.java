@@ -39,10 +39,12 @@ class GradeBook {
     void showStudentsInGroups() {
         if (!groups.isEmpty()) {
             StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("\nStudents in groups:\n");
             for (Map.Entry<Integer, Group> entry : groups.entrySet()) {
                 stringBuilder.append("Group ID ")
-                        .append(entry.getKey());
-                entry.getValue().printStudentList();
+                        .append(entry.getKey())
+                        .append('\n')
+                        .append(entry.getValue().getStudentList());
             }
             log.info(stringBuilder.toString());
         }
@@ -65,11 +67,15 @@ class GradeBook {
     void showDisciplinesStudentAttended(Student student) {
         if (!groups.isEmpty()) {
             StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("\nStudent ID ")
+                    .append(student.getStudentId())
+                    .append('\n')
+                    .append("Attends groups:\n");
             for (Map.Entry<Integer, Group> entry : groups.entrySet()) {
                 if(entry.getValue().isStudentIn(student)) {
-                    stringBuilder.append(student)
-                            .append("in group ID")
-                            .append(entry.getKey());
+                    stringBuilder.append("ID")
+                            .append(entry.getKey())
+                            .append(" ");
                 }
             }
             log.info(stringBuilder.toString());

@@ -1,7 +1,5 @@
 package subtasks.five;
 
-import jdk.internal.jline.internal.Log;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +14,7 @@ public class Group {
         studentsGrades = new HashMap<>();
     }
 
-    void printStudentList() {
+    String getStudentList() {
         StringBuilder builder = new StringBuilder();
         for (Student student: studentsGrades.keySet()) {
             builder.append("Student ID ")
@@ -24,9 +22,10 @@ public class Group {
                     .append(" ")
                     .append(student.getFirstName())
                     .append(" ")
-                    .append(student.getLastName());
+                    .append(student.getLastName())
+                    .append('\n');
         }
-        Log.info(builder.toString());
+        return builder.toString();
     }
 
     void addStudent(Student student) {
