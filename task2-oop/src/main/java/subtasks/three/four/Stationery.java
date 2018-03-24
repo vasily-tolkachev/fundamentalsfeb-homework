@@ -2,16 +2,16 @@ package subtasks.three.four;
 
 import java.util.Objects;
 
-abstract class Stationery {
+public abstract class Stationery {
     private final int cost;
     private final String name;
 
-    Stationery(int cost, String name) {
+    public Stationery(int cost, String name) {
         this.cost = cost;
         this.name = name;
     }
 
-    int getCost() {
+    public int getCost() {
         return cost;
     }
 

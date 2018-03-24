@@ -2,10 +2,10 @@ package subtasks.three.four;
 
 import java.util.Objects;
 
-class Pencil extends Stationery {
+public class Pencil extends Stationery {
     private final String pencilType;
 
-    Pencil(int cost, String pencilType) {
+    public Pencil(int cost, String pencilType) {
         super(cost, "Pencil");
         this.pencilType = pencilType;
     }

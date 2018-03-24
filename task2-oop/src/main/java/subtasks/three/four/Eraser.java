@@ -2,10 +2,10 @@ package subtasks.three.four;
 
 import java.util.Objects;
 
-class Eraser extends Stationery {
+public class Eraser extends Stationery {
     private final String eraserType;
 
-    Eraser(int cost, String eraserType) {
+    public Eraser(int cost, String eraserType) {
         super(cost, "Eraser");
         this.eraserType = eraserType;
     }

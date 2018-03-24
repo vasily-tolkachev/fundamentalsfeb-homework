@@ -2,10 +2,10 @@ package subtasks.three.four;
 
 import java.util.Objects;
 
-class Ruler extends Stationery {
+public class Ruler extends Stationery {
     private final String rulerType;
 
-    Ruler(int cost, String type) {
+    public Ruler(int cost, String type) {
         super(cost, "Ruler");
         this.rulerType = type;
     }
