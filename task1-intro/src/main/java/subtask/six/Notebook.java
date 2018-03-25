@@ -3,6 +3,9 @@ package subtask.six;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Notebook class to collect, show and edit(put new instead old) users notes
+ */
 class Notebook {
     private static final Logger log = LogManager.getLogger(Main.class);
 
