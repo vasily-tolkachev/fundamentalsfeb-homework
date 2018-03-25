@@ -11,6 +11,7 @@
     <modules>
         <module>task1-intro</module>
         <module>task2-oop</module>
+        <module>task3-strings</module>
     </modules>
 
     <dependencies>
