@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import subtasks.one.Main;
 
+@Preamble(author = "Vasily Tolkachev")
 class Submarine {
     private static final Logger log = LogManager.getLogger(Main.class);
     private Engine engine = new Engine();
