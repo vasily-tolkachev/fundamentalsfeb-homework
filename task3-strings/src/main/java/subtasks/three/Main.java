@@ -12,8 +12,15 @@ class Main {
 
     public static void main(String... args) {
         InputStream inputStream = Main.class.getResourceAsStream(FILE_NAME);
-        List<String> sentences = FileParser.splitBySentences(FileParser.readFileToString(inputStream));
-        log.info("Size", sentences.size());
-    }
+        String text = FileParser.readFileToString(inputStream);
+        List<String> referenceSentences = FileParser.getReferenceSentences(text);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String string : referenceSentences) {
+            stringBuilder.append(string).append("\n\n");
+        }
 
+
+        log.info("\nSentences that have references to pictures in:\n{}", stringBuilder.toString());
+        log.info("\nAre references consistent: {}", FileParser.areReferencesConsistent(text));
+    }
 }

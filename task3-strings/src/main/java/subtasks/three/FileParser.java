@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class FileParser {
-    private static final Logger log = LogManager.getLogger(Main.class);
+    private static final Logger log = LogManager.getLogger(FileParser.class);
 
     private FileParser() {}
 
@@ -34,13 +34,35 @@ class FileParser {
         return textBuilder.toString();
     }
 
-    static List<String> splitBySentences(CharSequence text) {
-        List<String> sentences = new ArrayList<>();
-        Pattern p = Pattern.compile("([А-Я]([^?!.(]|\\([^)]+\\))*[.?!])");
-        Matcher m = p.matcher(text);
-        while (m.find()) {
-            sentences.add(m.group());
+    static boolean areReferencesConsistent(CharSequence text) {
+        Pattern linkPattern = Pattern.compile("\\([Рр]ис.\\s*(\\d+)|рисунк[еа]\\s*(\\d+)");
+        Matcher linkMatcher = linkPattern.matcher(text);
+        int previousRef = 0;
+        boolean areConsistent = true;
+        while (linkMatcher.find()) {
+            int ref = 0;
+            areConsistent = previousRef < ref;
+            if (linkMatcher.group(2) == null) {
+                ref = Integer.parseInt(linkMatcher.group(1));
+            } else if (linkMatcher.group(1) == null) {
+                ref = Integer.parseInt(linkMatcher.group(2));
+            }
+            previousRef = ref;
         }
-        return sentences;
+        return areConsistent;
+    }
+
+    static List<String> getReferenceSentences(String text) {
+        List<String> referenceSentences = new ArrayList<>();
+        Pattern sentencePattern = Pattern.compile("([А-Я]([^?!.(]|\\([^)]+\\))*[.?!])");
+        Matcher sentenceMatcher = sentencePattern.matcher(text);
+        Pattern linkPattern = Pattern.compile("(\\([Рр]ис.\\s*\\d+)|(рисунк[еа]\\s*\\d+)");
+        while (sentenceMatcher.find()) {
+            String sentence = sentenceMatcher.group();
+            if (linkPattern.matcher(sentence).find()) {
+                referenceSentences.add(sentence);
+            }
+        }
+        return referenceSentences;
     }
 }
