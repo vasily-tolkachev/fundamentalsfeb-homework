@@ -12,15 +12,25 @@
         <module>task1-intro</module>
         <module>task2-oop</module>
         <module>task3-strings</module>
+        <module>task4-IO</module>
+        <module>task4-exceptions</module>
+        <module>task5-exceptions</module>
+        <module>task6-collections</module>
+        <module>task7-multithreading</module>
+        <module>task8-JDBC</module>
     </modules>
 
     <dependencies>
         <!-- COMMON LIBS (Log4J2 & Vavr) -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>LATEST</version>
-            <optional>true</optional>
+            <artifactId>log4j-api</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.11.0</version>
         </dependency>
 
         <!-- CODE GENERATION (Lombok & CheckerFramework) -->
