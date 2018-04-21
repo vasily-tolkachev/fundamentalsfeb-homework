@@ -21,8 +21,12 @@ public class Main {
         }
         accountManager.printAccounts();
 
-        final int operationNumber = accountNumber * 1;
-        accountManager.applyOperations(createOperationListForTest(accountIdList, operationNumber, transactionLimitTestValue));
+        final int operationNumber = accountNumber * 10;
+        accountManager.applyOperations(
+                createOperationListForTest(accountIdList, operationNumber, transactionLimitTestValue)
+        );
+        accountManager.printAccounts();
+        System.out.println(accountManager.getCheckSumForTest());
     }
 
     private static void prepare() {

@@ -3,10 +3,7 @@ package subtasks.one;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 class AccountManager {
     private static final Logger log = LogManager.getLogger(Main.class);
@@ -38,5 +35,18 @@ class AccountManager {
     }
 
     void applyOperations(List<Operation> operationList) {
+        for (Operation operation: operationList) {
+            if (accounts.containsKey(operation.getAccountId())) {
+                operation.apply(accounts.get(operation.getAccountId()));
+            }
+        }
+    }
+
+    long getCheckSumForTest() {
+        long sum = 0;
+        for (Account account : accounts.values()) {
+            sum += account.getBalance();
+        }
+        return sum;
     }
 }
