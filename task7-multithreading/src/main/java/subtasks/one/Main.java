@@ -3,17 +3,28 @@ package subtasks.one;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class Main {
     private static final Logger log = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) {
-        Account account1 = new Account(1, 330);
-        Account account2 = new Account(2, 1330);
+        AccountManager accountManager = new AccountManager();
+        final int accountNumber = 100;
+        Set<Long> accountIdList = new HashSet<>();
+        for (int i = 0; i < accountNumber; i++) {
+            long accountId = accountManager.createNewAccount();
+            accountIdList.add(accountId);
+        }
+        accountManager.printAccounts();
 
-        Operation.apply(account1, OperationType.DEPOSIT, 200);
-        Operation.apply(account2, OperationType.WITHDRAW, 200);
+        accountManager.applyOperations(createOperationListForTest(accountIdList));
+    }
 
-        System.out.println("account1.getBalance() = " + account1.getBalance());
-        System.out.println("account2.getBalance() = " + account2.getBalance());
+    static List<Operation> createOperationListForTest(Set<Long> accountIdList) {
+        return new ArrayList<>();
     }
 }
