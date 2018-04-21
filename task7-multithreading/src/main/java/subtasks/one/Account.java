@@ -1,19 +1,19 @@
 package subtasks.one;
 
+import java.util.Objects;
+
 public class Account {
     private long balance;
-    private final long id;
 
-    public Account(long id, long balance) {
+    Account(long balance) {
         this.balance = balance;
-        this.id = id;
     }
 
-    public void increase(long value) {
+    void increase(long value) {
         this.balance += value;
     }
 
-    public void decrease(long value) {
+    void decrease(long value) {
         this.balance -= value;
     }
 
@@ -21,7 +21,24 @@ public class Account {
         return balance;
     }
 
-    public long getId() {
-        return id;
+    @Override
+    public String toString() {
+        return "Account{" +
+                "balance=" + balance +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return balance == account.balance;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(balance);
     }
 }
