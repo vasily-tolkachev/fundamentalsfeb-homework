@@ -13,6 +13,19 @@ class AccountManager {
         this.accounts = new HashMap<>();
     }
 
+    AccountManager(Map<Long, Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    Map<Long, Account> getAccountsCopy() {
+        Map<Long, Account> copy = new HashMap<>();
+        for (Map.Entry<Long, Account> entry : accounts.entrySet()) {
+            Account account = new Account(entry.getValue().getBalance());
+            copy.put(entry.getKey(), account);
+        }
+        return copy;
+    }
+
     long createNewAccount(long initialBalance) {
         Random random = new Random();
         long newID;
@@ -48,5 +61,11 @@ class AccountManager {
             sum += account.getBalance();
         }
         return sum;
+    }
+}
+
+class ConcurrentAccountManager extends AccountManager {
+    public ConcurrentAccountManager(Map<Long, Account> accounts) {
+        super(accounts);
     }
 }

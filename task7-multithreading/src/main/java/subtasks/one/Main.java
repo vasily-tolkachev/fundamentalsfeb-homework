@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         AccountManager accountManager = new AccountManager();
-        final int accountNumber = 10;
+        final int accountNumber = 100;
         final long balanceLimitTestValue = 100000;
         final int transactionLimitTestValue = 10000;
 
@@ -19,14 +19,22 @@ public class Main {
             long accountId = accountManager.createNewAccount(generateInitialBalance(balanceLimitTestValue));
             accountIdList.add(accountId);
         }
+        Map<Long, Account> accountsInInitialState = accountManager.getAccountsCopy();
         accountManager.printAccounts();
 
         final int operationNumber = accountNumber * 10;
-        accountManager.applyOperations(
-                createOperationListForTest(accountIdList, operationNumber, transactionLimitTestValue)
+        List<Operation> operationListForTest = createOperationListForTest(
+                accountIdList, operationNumber, transactionLimitTestValue
         );
-        accountManager.printAccounts();
-        System.out.println(accountManager.getCheckSumForTest());
+        accountManager.applyOperations(operationListForTest);
+        //accountManager.printAccounts();
+        System.out.println("accountManager.getCheckSumForTest() = " + accountManager.getCheckSumForTest());
+
+
+        accountManager = new ConcurrentAccountManager(accountsInInitialState);
+        accountManager.applyOperations(operationListForTest);
+        //accountManager.printAccounts();
+        System.out.println("accountManager.getCheckSumForTest() = " + accountManager.getCheckSumForTest());
     }
 
     private static void prepare() {
