@@ -4,10 +4,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 class AccountManager {
     private static final Logger log = LogManager.getLogger(Main.class);
-    private final Map<Long, Account> accounts;
+    final Map<Long, Account> accounts;
 
     AccountManager() {
         this.accounts = new HashMap<>();
@@ -48,7 +51,7 @@ class AccountManager {
     }
 
     void applyOperations(List<Operation> operationList) {
-        for (Operation operation: operationList) {
+        for (Operation operation : operationList) {
             if (accounts.containsKey(operation.getAccountId())) {
                 operation.apply(accounts.get(operation.getAccountId()));
             }
@@ -65,7 +68,40 @@ class AccountManager {
 }
 
 class ConcurrentAccountManager extends AccountManager {
-    public ConcurrentAccountManager(Map<Long, Account> accounts) {
+    private Lock lock = new ReentrantLock();
+
+    ConcurrentAccountManager(Map<Long, Account> accounts) {
         super(accounts);
+    }
+
+    @Override
+    void applyOperations(List<Operation> operationList) {
+        ExecutorService service = null;
+        try {
+            service = Executors.newFixedThreadPool(10);
+            for (Operation operation : operationList) {
+                Future<?> results = service.submit(() -> {
+                    Long accountId = operation.getAccountId();
+                    if (accounts.containsKey(accountId)) {
+                        Account account = accounts.get(accountId);
+                        try {
+                            lock.lock();
+                            if (operation.getType() == OperationType.DEPOSIT) {
+                                account.increase(operation.getValue());
+                            } else if (operation.getType() == OperationType.WITHDRAW) {
+                                account.decrease(operation.getValue());
+                            }
+                        } finally {
+                            lock.unlock();
+                        }
+                    }
+                });
+                results.get(10, TimeUnit.SECONDS);
+            }
+        } catch (ExecutionException | TimeoutException | InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            if (service != null) service.shutdown();
+        }
     }
 }
