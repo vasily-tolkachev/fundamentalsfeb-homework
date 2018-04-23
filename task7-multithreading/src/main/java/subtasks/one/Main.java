@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         AccountManager accountManager = new AccountManager();
-        final int accountNumber = 10;
+        final int accountNumber = 1;
         final long balanceLimitTestValue = 100000;
         final int transactionLimitTestValue = 10000;
 
@@ -22,7 +22,7 @@ public class Main {
         Map<Long, Account> accountsInInitialState = accountManager.getAccountsCopy();
         accountManager.printAccounts();
 
-        final int operationNumber = accountNumber * 1;
+        final int operationNumber = accountNumber * 10000;
         List<Operation> operationListForTest = createOperationListForTest(
                 accountIdList, operationNumber, transactionLimitTestValue
         );
