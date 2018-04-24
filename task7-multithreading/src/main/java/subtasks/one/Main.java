@@ -3,14 +3,19 @@ package subtasks.one;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class Main {
     private static final Logger log = LogManager.getLogger(Main.class);
+    private static final String OPERATIONS_FILE = "task7-multithreading/src/main/java/subtasks/one/operations.txt";
 
     public static void main(String[] args) {
         AccountManager accountManager = new AccountManager();
-        final int accountNumber = 1;
+        final int accountNumber = 10;
         final long balanceLimitTestValue = 100000;
         final int transactionLimitTestValue = 10000;
 
@@ -22,20 +27,44 @@ public class Main {
         Map<Long, Account> accountsInInitialState = accountManager.getAccountsCopy();
         accountManager.printAccounts();
 
-        final int operationNumber = accountNumber * 10000;
+        final int operationNumber = accountNumber * 10;
         List<Operation> operationListForTest = createOperationListForTest(
                 accountIdList, operationNumber, transactionLimitTestValue
         );
-        accountManager.applyOperations(operationListForTest);
+
+        File operationFile = new File(OPERATIONS_FILE);
+        writeOperationListToFile(operationListForTest, operationFile);
+
+        List<Operation> operationList = OperationReader.getOperations(operationFile);
+        for (Operation operation : operationList) {
+            System.out.println(operation);
+        }
+
+        accountManager.applyOperations(operationList);
         //accountManager.printAccounts();
         System.out.println("Single thread account manager control sum = " + accountManager.getCheckSumForTest());
 
 
         accountManager = new ConcurrentAccountManager(accountsInInitialState);
-        accountManager.applyOperations(operationListForTest);
+        accountManager.applyOperations(operationList);
         //accountManager.printAccounts();
-        //System.out.println(Thread.currentThread().getName());
         System.out.println("Concurrent account manager control sum = " + accountManager.getCheckSumForTest());
+    }
+
+    private static void writeOperationListToFile(List<Operation> operationListForTest, File file) {
+        StringBuilder builder = new StringBuilder();
+        for (Operation operation : operationListForTest) {
+            builder.append(operation).append('\n');
+        }
+
+        try (
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))
+        ) {
+            file.createNewFile();
+            bufferedWriter.write(builder.toString());
+        } catch (IOException e) {
+            log.info("IOException");
+        }
     }
 
     private static void prepare() {
@@ -57,10 +86,6 @@ public class Main {
             }
             transactionValue = random.nextInt(transactionLimit);
             operations.add(new Operation(accountId, type, transactionValue));
-        }
-
-        for (Operation operation : operations) {
-            System.out.println(operation);
         }
 
         return operations;
