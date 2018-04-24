@@ -15,6 +15,25 @@ public class Main {
 
     public static void main(String[] args) {
         AccountManager accountManager = new AccountManager();
+        File operationFile = new File(OPERATIONS_FILE);
+
+        prepare(accountManager, operationFile);
+        Map<Long, Account> accountsInInitialState = accountManager.getAccountsCopy();
+
+        List<Operation> operationList = OperationReader.getOperations(operationFile);
+        printOperations(operationList);
+
+        accountManager.applyOperations(operationList);
+        //accountManager.printAccounts();
+        log.info("Single thread account manager control sum = {}", accountManager.getCheckSumForTest());
+
+        accountManager = new ConcurrentAccountManager(accountsInInitialState);
+        accountManager.applyOperations(operationList);
+        //accountManager.printAccounts();
+        log.info("Concurrent account manager control sum = " + accountManager.getCheckSumForTest());
+    }
+
+    private static void prepare(AccountManager accountManager, File operationFile) {
         final int accountNumber = 10;
         final long balanceLimitTestValue = 100000;
         final int transactionLimitTestValue = 10000;
@@ -24,7 +43,7 @@ public class Main {
             long accountId = accountManager.createNewAccount(generateInitialBalance(balanceLimitTestValue));
             accountIdList.add(accountId);
         }
-        Map<Long, Account> accountsInInitialState = accountManager.getAccountsCopy();
+
         accountManager.printAccounts();
 
         final int operationNumber = accountNumber * 10;
@@ -32,23 +51,7 @@ public class Main {
                 accountIdList, operationNumber, transactionLimitTestValue
         );
 
-        File operationFile = new File(OPERATIONS_FILE);
         writeOperationListToFile(operationListForTest, operationFile);
-
-        List<Operation> operationList = OperationReader.getOperations(operationFile);
-        for (Operation operation : operationList) {
-            System.out.println(operation);
-        }
-
-        accountManager.applyOperations(operationList);
-        //accountManager.printAccounts();
-        System.out.println("Single thread account manager control sum = " + accountManager.getCheckSumForTest());
-
-
-        accountManager = new ConcurrentAccountManager(accountsInInitialState);
-        accountManager.applyOperations(operationList);
-        //accountManager.printAccounts();
-        System.out.println("Concurrent account manager control sum = " + accountManager.getCheckSumForTest());
     }
 
     private static void writeOperationListToFile(List<Operation> operationListForTest, File file) {
@@ -65,9 +68,6 @@ public class Main {
         } catch (IOException e) {
             log.info("IOException");
         }
-    }
-
-    private static void prepare() {
     }
 
     private static List<Operation> createOperationListForTest(Set<Long> accountIdList, int operationNumber, int transactionLimit) {
@@ -93,5 +93,13 @@ public class Main {
 
     private static long generateInitialBalance(long limit) {
         return  (long) (Math.random() * limit);
+    }
+
+    private static void printOperations(List<Operation> operations) {
+        StringBuilder builder = new StringBuilder();
+        for (Operation operation : operations) {
+            builder.append('\n').append(operation);
+        }
+        log.info("\nOperations list:{}\n", builder.toString());
     }
 }
